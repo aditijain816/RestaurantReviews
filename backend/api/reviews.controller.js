@@ -1,7 +1,7 @@
 import ReviewsDAO from "../dao/reviewsDAO.js"
 
 export default class ReviewsController {
-    static async apiPostReview(res, req, next){
+    static async apiPostReview(req, res, next){
         try{
             //1: getting information about retaurant, review text, and user from the body of the request
             const restaurantId = req.body.restaurant_id
@@ -25,7 +25,7 @@ export default class ReviewsController {
         }
     }
 
-    static async apiUpdateReview(res, req, next){
+    static async apiUpdateReview(req, res, next){
         try{
             const reviewId = req.body.review_id
             const text = req.body.text
@@ -55,7 +55,7 @@ export default class ReviewsController {
         }
     }
 
-    static async apiDeleteReview(res, req, next){
+    static async apiDeleteReview(req, res, next){
         try{
             const reviewId = req.query._id
             //1: simple auth: making sure deleter's user id is same as creator's
