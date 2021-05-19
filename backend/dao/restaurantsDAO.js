@@ -1,8 +1,11 @@
+//1. getting access to ObjectId to covert string to mongodb ObjectId
+import mongodb from "mongodb"
+const ObjectId = mongodb.ObjectID
 //1: create variable to store reference to db
 let restaurants
 
 export default class RestaurantsDAO {
-    //1: first method: helps connect to db so call this as soon as server starts
+    //1: first method: helps connect to db so call this as soon as server starts 
     static async injectDB(conn){
         if(restaurants){
             return
@@ -70,36 +73,36 @@ export default class RestaurantsDAO {
                         _id: new ObjectId(id),
                     },
                 },
-                {
-                    $lookup: { //2: want to lookup reviews to add to the result
-                        from: "reviews",
-                        let: {
-                            id: "$_id",
-                        },
-                        pipeline: [ //2: creating pipeline from reviews collection
-                            {
-                                $match: {
-                                    $expr: {
-                                        //2: matching restaurant id to get all reviews
-                                        $eq: ["$restaurant_id", "$$id"],
+                    {
+                        $lookup: { //2: want to lookup reviews to add to the result
+                            from: "reviews",
+                            let: {
+                                id: "$_id",
+                            },
+                            pipeline: [ //2: creating pipeline from reviews collection
+                                {
+                                    $match: {
+                                        $expr: {
+                                            //2: matching restaurant id to get all reviews
+                                            $eq: ["$restaurant_id", "$$id"],
+                                        },
                                     },
                                 },
-                            },
-                            {
-                                $sort: {
-                                     date: -1,
+                                {
+                                    $sort: {
+                                        date: -1,
+                                    },
                                 },
-                            },
-                        ],
-                        as: "reviews", //2: setting it as reviews in the result
+                            ],
+                            as: "reviews", //2: setting it as reviews in the result
+                        },
                     },
-                },
-                {
-                    $addFields: {
-                        reviews: "$reviews", //2: adding new field of 'reviews'
+                    {
+                        $addFields: {
+                            reviews: "$reviews", //2: adding new field of 'reviews'
+                        },
                     },
-                },
-            ]
+                ]
             return await restaurants.aggregate(pipeline).next() //2: aggregating; everything together
         } catch (e) {
             console.error(`Something went wrong in getRestaurantByID: ${e}`)

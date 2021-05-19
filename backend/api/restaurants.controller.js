@@ -47,7 +47,7 @@ export default class RestaurantsController {
             }
             res.json(restaurant)
         } catch (e) {
-            console.log(`api, ${e}`)
+            console.log(`api1, ${e}`)
             res.status(500).json({ error: e })
         }
     }
