@@ -25,7 +25,7 @@ function App() {
       {/*1: navbar taken from bootstrap doc*/}
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <a href="/restaurants" className="navbar-brand">
-          Restaurant Reviews
+        &nbsp; &nbsp; Restaurant Reviews
         </a>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
